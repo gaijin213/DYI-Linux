@@ -2,6 +2,9 @@
 
 **DIY Linux** is a unified, minimal live ISO and terminal installer (TUI) that lets you install latest versions **five major Linux distributions** from a single bootable image with the exact desktop environment, drivers, and system components you want.
 
+<img width="1386" height="755" alt="image" src="https://github.com/user-attachments/assets/d25ed163-04d2-4c45-817f-53d06e7609ec" />
+
+
 > **Download the Live ISO:** Grab **`DIY-Linux.iso`** from the [**Releases**](https://github.com/gaijin213/DYI-Linux/releases/latest) page.
 
 ---
