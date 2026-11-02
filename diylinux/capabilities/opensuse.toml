@@ -1,0 +1,109 @@
+[meta]
+name = "openSUSE Tumbleweed"
+family = "suse"
+release = "tumbleweed"
+rolling = true
+secure_boot = true
+arches = ["x86_64", "aarch64"]
+blurb = "Rolling release that is tested as a whole (openQA), btrfs snapshots by default. The rolling choice that still has a signed shim, so Secure Boot works."
+default_mirror = "https://download.opensuse.org"
+repos = { oss = "{mirror}/tumbleweed/repo/oss/", non-oss = "{mirror}/tumbleweed/repo/non-oss/", update = "{mirror}/update/tumbleweed/" }
+repos_ports = { oss = "{mirror}/ports/{susearch}/tumbleweed/repo/oss/", update = "{mirror}/ports/{susearch}/update/tumbleweed/" }
+
+[disk]
+filesystems = ["btrfs", "ext4", "xfs"]
+
+[base]
+packages = ["patterns-base-base", "patterns-base-enhanced_base", "kernel-default", "kernel-firmware-all", "sudo", "glibc-locale", "ucode-intel", "ucode-amd", "dracut", "shadow", "zypper", "openSUSE-release", "btrfsprogs", "xfsprogs", "dosfstools", "cryptsetup", "lvm2", "nano", "chrony", "timezone"]
+services = ["chronyd"]
+
+[bootloader.grub]
+label = "GRUB (Secure Boot signed)"
+packages = ["grub2", "grub2-{susegrub}-efi", "shim", "efibootmgr", "mokutil"]
+
+[desktop.gnome]
+label = "GNOME"
+packages = ["patterns-gnome-gnome", "patterns-gnome-gnome_basis", "gdm"]
+dm = "gdm"
+[desktop.kde]
+label = "KDE Plasma"
+packages = ["patterns-kde-kde", "patterns-kde-kde_plasma", "sddm"]
+dm = "sddm"
+[desktop.xfce]
+label = "Xfce"
+packages = ["patterns-xfce-xfce", "lightdm"]
+dm = "lightdm"
+[desktop.cinnamon]
+label = "Cinnamon"
+packages = ["cinnamon", "lightdm", "lightdm-gtk-greeter"]
+dm = "lightdm"
+[desktop.sway]
+label = "Sway (Wayland tiling WM, start with `sway` from the console)"
+packages = ["sway", "swaybg", "foot", "wmenu", "polkit"]
+[desktop.hyprland]
+label = "Hyprland (Wayland, start with `Hyprland` from the console)"
+packages = ["hyprland", "kitty", "wofi", "polkit", "xdg-desktop-portal-hyprland"]
+[desktop.i3]
+label = "i3 (X11 tiling WM)"
+packages = ["i3", "i3status", "dmenu", "xorg-x11-server", "xinit", "xterm", "lightdm", "lightdm-gtk-greeter"]
+dm = "lightdm"
+[desktop.none]
+label = "None (console only)"
+packages = []
+
+[graphics.mesa]
+label = "Mesa (Intel, AMD, Nouveau for NVIDIA) - open source, default"
+packages = ["Mesa", "Mesa-dri", "Mesa-libva", "Mesa-vulkan-device-select", "libvulkan_radeon", "libvulkan_intel"]
+[graphics.nvidia]
+label = "NVIDIA proprietary (openSUSE NVIDIA repo, G06 open kernel modules)"
+packages = ["nvidia-open-driver-G06-signed-kmp-default", "nvidia-video-G06", "nvidia-gl-G06"]
+zypper_repos = { nvidia = "https://download.nvidia.com/opensuse/tumbleweed" }
+
+[power.ppd]
+label = "power-profiles-daemon (integrates with GNOME/KDE)"
+packages = ["power-profiles-daemon"]
+services = ["power-profiles-daemon"]
+[power.tlp]
+label = "TLP (laptop battery tuning)"
+packages = ["tlp"]
+services = ["tlp"]
+[power.none]
+label = "None"
+packages = []
+
+[firewall.firewalld]
+label = "firewalld (openSUSE default)"
+packages = ["firewalld"]
+services = ["firewalld"]
+[firewall.none]
+label = "None"
+packages = []
+[firewall.ufw]
+label = "ufw"
+packages = ["ufw"]
+services = ["ufw"]
+ufw_enable = true
+[firewall.nftables]
+label = "nftables (plain ruleset)"
+packages = ["nftables"]
+services = ["nftables"]
+
+[audio.pipewire]
+label = "PipeWire (default)"
+packages = ["pipewire", "pipewire-pulseaudio", "pipewire-alsa", "wireplumber"]
+[audio.pulseaudio]
+label = "PulseAudio (legacy)"
+packages = ["pulseaudio", "pavucontrol"]
+[audio.none]
+label = "None"
+packages = []
+
+[network.networkmanager]
+label = "NetworkManager (default)"
+packages = ["NetworkManager"]
+services = ["NetworkManager"]
+[network.networkd]
+label = "systemd-networkd + iwd (minimal)"
+packages = ["systemd-networkd", "iwd"]
+services = ["systemd-networkd", "systemd-resolved", "iwd"]
+networkd_dhcp = true

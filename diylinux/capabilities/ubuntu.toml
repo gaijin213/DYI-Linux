@@ -1,0 +1,107 @@
+[meta]
+name = "Ubuntu"
+family = "debian"
+release = "noble"
+release_label = "latest"
+rolling = false
+secure_boot = true
+arches = ["x86_64", "aarch64"]
+blurb = "LTS point releases, broadest hardware and vendor support, snaps for some apps. Secure Boot works out of the box."
+default_mirror = "http://archive.ubuntu.com/ubuntu"
+default_mirror_ports = "http://ports.ubuntu.com/ubuntu-ports"
+components = ["main", "restricted", "universe", "multiverse"]
+
+[disk]
+filesystems = ["ext4", "btrfs", "xfs"]
+
+[base]
+packages = ["linux-generic", "linux-firmware", "ubuntu-minimal", "ubuntu-standard", "sudo", "locales", "language-pack-en", "console-setup", "intel-microcode", "amd64-microcode", "btrfs-progs", "xfsprogs", "dosfstools", "cryptsetup", "cryptsetup-initramfs", "lvm2", "nano", "ca-certificates", "curl", "systemd-timesyncd", "systemd-resolved", "snapd"]
+services = ["systemd-timesyncd"]
+
+[bootloader.grub]
+label = "GRUB (Secure Boot signed)"
+packages = ["grub-efi-{debarch}", "grub-efi-{debarch}-signed", "shim-signed", "efibootmgr"]
+
+[desktop.gnome]
+label = "GNOME (Ubuntu desktop)"
+packages = ["ubuntu-desktop-minimal", "gdm3"]
+dm = "gdm3"
+[desktop.kde]
+label = "KDE Plasma"
+packages = ["kde-plasma-desktop", "sddm", "konsole", "dolphin", "kate"]
+dm = "sddm"
+[desktop.xfce]
+label = "Xfce (Xubuntu core)"
+packages = ["xubuntu-core", "lightdm"]
+dm = "lightdm"
+[desktop.cinnamon]
+label = "Cinnamon"
+packages = ["cinnamon-desktop-environment", "lightdm", "lightdm-gtk-greeter"]
+dm = "lightdm"
+[desktop.sway]
+label = "Sway (Wayland tiling WM, start with `sway` from the console)"
+packages = ["sway", "swaybg", "foot", "wmenu", "polkitd"]
+[desktop.i3]
+label = "i3 (X11 tiling WM)"
+packages = ["i3", "i3status", "suckless-tools", "xserver-xorg", "xinit", "xterm", "lightdm", "lightdm-gtk-greeter"]
+dm = "lightdm"
+[desktop.none]
+label = "None (console only)"
+packages = []
+
+[graphics.mesa]
+label = "Mesa (Intel, AMD, Nouveau for NVIDIA) - open source, default"
+packages = ["mesa-vulkan-drivers", "libgl1-mesa-dri", "mesa-va-drivers", "mesa-utils"]
+[graphics.nvidia]
+label = "NVIDIA proprietary (picked by ubuntu-drivers for your GPU)"
+packages = ["ubuntu-drivers-common"]
+post = ["ubuntu-drivers install"]
+
+[power.ppd]
+label = "power-profiles-daemon (integrates with GNOME/KDE)"
+packages = ["power-profiles-daemon"]
+services = ["power-profiles-daemon"]
+[power.tlp]
+label = "TLP (laptop battery tuning)"
+packages = ["tlp"]
+services = ["tlp"]
+[power.none]
+label = "None"
+packages = []
+
+[firewall.none]
+label = "None"
+packages = []
+[firewall.ufw]
+label = "ufw (Ubuntu default)"
+packages = ["ufw"]
+services = ["ufw"]
+ufw_enable = true
+[firewall.firewalld]
+label = "firewalld"
+packages = ["firewalld"]
+services = ["firewalld"]
+[firewall.nftables]
+label = "nftables (plain ruleset)"
+packages = ["nftables"]
+services = ["nftables"]
+
+[audio.pipewire]
+label = "PipeWire (default)"
+packages = ["pipewire-audio", "pipewire-alsa"]
+[audio.pulseaudio]
+label = "PulseAudio (legacy)"
+packages = ["pulseaudio", "pavucontrol"]
+[audio.none]
+label = "None"
+packages = []
+
+[network.networkmanager]
+label = "NetworkManager (default)"
+packages = ["network-manager"]
+services = ["NetworkManager"]
+[network.networkd]
+label = "systemd-networkd + iwd (minimal)"
+packages = ["iwd"]
+services = ["systemd-networkd", "systemd-resolved", "iwd"]
+networkd_dhcp = true

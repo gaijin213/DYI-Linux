@@ -1,0 +1,110 @@
+[meta]
+name = "Fedora"
+family = "fedora"
+release = "43"
+release_label = "latest"
+rolling = false
+secure_boot = true
+arches = ["x86_64", "aarch64"]
+blurb = "Six-month releases with very recent packages, upstream-first, SELinux on. Secure Boot works out of the box."
+default_mirror = "https://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch"
+updates_mirror = "https://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch"
+gpg_key = "https://fedoraproject.org/fedora.gpg"
+
+[disk]
+filesystems = ["ext4", "btrfs", "xfs"]
+
+[base]
+packages = ["@core", "kernel", "linux-firmware", "sudo", "glibc-langpack-en", "microcode_ctl", "dracut", "dracut-config-generic", "selinux-policy-targeted", "policycoreutils", "btrfs-progs", "xfsprogs", "dosfstools", "cryptsetup", "lvm2", "nano", "systemd-resolved", "chrony"]
+services = ["chronyd"]
+
+[bootloader.grub]
+label = "GRUB (Secure Boot signed)"
+packages = ["shim-{efiarch}", "grub2-efi-{efiarch}", "grub2-tools", "grub2-tools-extra", "efibootmgr"]
+
+[desktop.gnome]
+label = "GNOME (Fedora Workstation)"
+packages = ["@workstation-product-environment"]
+dm = "gdm"
+[desktop.kde]
+label = "KDE Plasma"
+packages = ["@kde-desktop-environment"]
+dm = "sddm"
+[desktop.xfce]
+label = "Xfce"
+packages = ["@xfce-desktop-environment"]
+dm = "lightdm"
+[desktop.cinnamon]
+label = "Cinnamon"
+packages = ["@cinnamon-desktop-environment"]
+dm = "lightdm"
+[desktop.sway]
+label = "Sway (Fedora Sway spin set, start with `sway` from the console)"
+packages = ["@sway-desktop-environment"]
+[desktop.i3]
+label = "i3 (X11 tiling WM)"
+packages = ["@i3-desktop-environment"]
+dm = "lightdm"
+[desktop.none]
+label = "None (console only)"
+packages = []
+
+[graphics.mesa]
+label = "Mesa (Intel, AMD, Nouveau for NVIDIA) - open source, default"
+packages = ["mesa-dri-drivers", "mesa-vulkan-drivers", "mesa-va-drivers"]
+[graphics.nvidia]
+label = "NVIDIA proprietary (RPM Fusion akmod-nvidia, builds on first boot)"
+packages = ["akmod-nvidia", "xorg-x11-drv-nvidia-cuda", "kernel-devel"]
+repos = ["https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{release}.noarch.rpm", "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{release}.noarch.rpm"]
+
+[power.ppd]
+label = "power-profiles-daemon (Fedora default, integrates with GNOME/KDE)"
+packages = ["power-profiles-daemon"]
+services = ["power-profiles-daemon"]
+[power.tlp]
+label = "TLP (laptop battery tuning)"
+packages = ["tlp"]
+services = ["tlp"]
+remove = ["power-profiles-daemon"]
+[power.none]
+label = "None"
+packages = []
+remove = ["power-profiles-daemon"]
+
+[firewall.firewalld]
+label = "firewalld (Fedora default)"
+packages = ["firewalld"]
+services = ["firewalld"]
+[firewall.none]
+label = "None"
+packages = []
+remove = ["firewalld"]
+[firewall.ufw]
+label = "ufw"
+packages = ["ufw"]
+services = ["ufw"]
+remove = ["firewalld"]
+ufw_enable = true
+[firewall.nftables]
+label = "nftables (plain ruleset)"
+packages = ["nftables"]
+services = ["nftables"]
+remove = ["firewalld"]
+
+[audio.pipewire]
+label = "PipeWire (default; PulseAudio is not offered on Fedora, it conflicts with the stack)"
+packages = ["pipewire", "pipewire-pulseaudio", "pipewire-alsa", "wireplumber"]
+[audio.none]
+label = "None"
+packages = []
+
+[network.networkmanager]
+label = "NetworkManager (default)"
+packages = ["NetworkManager", "NetworkManager-wifi"]
+services = ["NetworkManager"]
+[network.networkd]
+label = "systemd-networkd + iwd (minimal)"
+packages = ["systemd-networkd", "iwd"]
+services = ["systemd-networkd", "systemd-resolved", "iwd"]
+remove = ["NetworkManager"]
+networkd_dhcp = true

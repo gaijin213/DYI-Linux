@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diylinux"
+version = "0.2.0"
+description = "DIY Linux: one unified TUI installer for Arch, Debian, Ubuntu, Fedora, and openSUSE"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+dependencies = [
+    "textual>=0.80.0",
+]
+
+[project.scripts]
+diylinux = "diylinux.tui.app:main"
+diylinux-install = "diylinux.install:main"
+
+[tool.setuptools.packages.find]
+include = ["diylinux*"]
+
+[tool.setuptools.package-data]
+"diylinux.capabilities" = ["*.toml"]

@@ -1,0 +1,109 @@
+[meta]
+name = "Arch Linux"
+family = "arch"
+release = "rolling"
+rolling = true
+secure_boot = false
+arches = ["x86_64"]
+blurb = "Rolling release, newest packages, you maintain it. No Microsoft-signed shim: Secure Boot must be OFF in firmware or the installed system will not boot."
+default_mirror = "https://geo.mirror.pkgbuild.com/$repo/os/$arch"
+
+[disk]
+filesystems = ["ext4", "btrfs", "xfs"]
+
+[base]
+packages = ["base", "linux", "linux-firmware", "sudo", "nano", "intel-ucode", "amd-ucode", "e2fsprogs", "btrfs-progs", "xfsprogs", "dosfstools", "cryptsetup", "lvm2"]
+services = ["systemd-timesyncd"]
+
+[bootloader.grub]
+label = "GRUB"
+packages = ["grub", "efibootmgr"]
+[bootloader.systemd-boot]
+label = "systemd-boot"
+packages = []
+
+[desktop.gnome]
+label = "GNOME"
+packages = ["gnome", "gnome-tweaks"]
+dm = "gdm"
+[desktop.kde]
+label = "KDE Plasma"
+packages = ["plasma-meta", "konsole", "dolphin", "kate", "sddm"]
+dm = "sddm"
+[desktop.xfce]
+label = "Xfce"
+packages = ["xfce4", "xfce4-goodies", "lightdm", "lightdm-gtk-greeter"]
+dm = "lightdm"
+[desktop.cinnamon]
+label = "Cinnamon"
+packages = ["cinnamon", "gnome-terminal", "lightdm", "lightdm-gtk-greeter"]
+dm = "lightdm"
+[desktop.sway]
+label = "Sway (Wayland tiling WM, start with `sway` from the console)"
+packages = ["sway", "swaybg", "foot", "wmenu", "polkit"]
+[desktop.hyprland]
+label = "Hyprland (Wayland, start with `Hyprland` from the console)"
+packages = ["hyprland", "kitty", "wofi", "polkit", "xdg-desktop-portal-hyprland"]
+[desktop.i3]
+label = "i3 (X11 tiling WM)"
+packages = ["i3-wm", "i3status", "dmenu", "xorg-server", "xorg-xinit", "xterm", "lightdm", "lightdm-gtk-greeter"]
+dm = "lightdm"
+[desktop.none]
+label = "None (console only)"
+packages = []
+
+[graphics.mesa]
+label = "Mesa (Intel, AMD, Nouveau for NVIDIA) - open source, default"
+packages = ["mesa", "vulkan-intel", "vulkan-radeon", "xf86-video-amdgpu"]
+[graphics.nvidia]
+label = "NVIDIA proprietary (nvidia-open, Turing or newer)"
+packages = ["nvidia-open", "nvidia-utils", "nvidia-settings"]
+
+[power.ppd]
+label = "power-profiles-daemon (integrates with GNOME/KDE)"
+packages = ["power-profiles-daemon"]
+services = ["power-profiles-daemon"]
+[power.tlp]
+label = "TLP (laptop battery tuning)"
+packages = ["tlp"]
+services = ["tlp"]
+[power.none]
+label = "None"
+packages = []
+
+[firewall.none]
+label = "None (Arch default)"
+packages = []
+[firewall.ufw]
+label = "ufw"
+packages = ["ufw"]
+services = ["ufw"]
+ufw_enable = true
+[firewall.firewalld]
+label = "firewalld"
+packages = ["firewalld"]
+services = ["firewalld"]
+[firewall.nftables]
+label = "nftables (plain ruleset)"
+packages = ["nftables"]
+services = ["nftables"]
+
+[audio.pipewire]
+label = "PipeWire (default)"
+packages = ["pipewire", "pipewire-pulse", "pipewire-alsa", "pipewire-jack", "wireplumber"]
+[audio.pulseaudio]
+label = "PulseAudio (legacy)"
+packages = ["pulseaudio", "pulseaudio-alsa"]
+[audio.none]
+label = "None"
+packages = []
+
+[network.networkmanager]
+label = "NetworkManager (default)"
+packages = ["networkmanager"]
+services = ["NetworkManager"]
+[network.networkd]
+label = "systemd-networkd + iwd (minimal)"
+packages = ["iwd"]
+services = ["systemd-networkd", "systemd-resolved", "iwd"]
+networkd_dhcp = true
